@@ -91,21 +91,22 @@ async function run() {
         })
 
         // single person order
-        app.get('/buyapartments', async (req, res) => {
+        app.get('/buyapartments/myorders', async (req, res) => {
             const email = req.query.email;
             // console.log(email);
             const query = { email: email }
-            // console.log(query);
+            console.log(query);
             const cursor = buyAparthmentsCollection.find(query);
             const result = await cursor.toArray();
             res.send(result);
         })
 
         // delete order
-        app.delete('/buyapartments/:id', async(req, res) => {
+        app.delete('/buyapartments/myorders/:id', async(req, res) => {
             const id = req.params.id;
+            console.log(id);
             const query = {_id: ObjectId(id)};
-            const result = await apartmentsCollection.deleteOne(query);
+            const result = await buyAparthmentsCollection.deleteOne(query);
 
             console.log(result);
             res.send(result);
@@ -181,7 +182,7 @@ async function run() {
 
         });
 
-        // add product
+        // add apartments
         app.post('/apartments', async(req, res) => {
             const result = await apartmentsCollection.insertOne(req.body);
             res.send(result);
